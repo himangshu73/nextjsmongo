@@ -1,20 +1,26 @@
-"use client";
-
-import { signIn } from "next-auth/react";
+import { auth } from "@/auth";
 import { AiOutlineHome } from "react-icons/ai";
+import SignOut from "./signout-button";
+import SignIn from "./sign-in";
 
-export default function Navbar() {
+export default async function Navbar() {
+  const session = await auth();
   return (
     <div className="flex justify-between px-4">
-      <div>
+      <div className="flex gap-2">
         <AiOutlineHome />
         <span>Home</span>
       </div>
-      <div>
-        <button onClick={() => signIn("github", { callbackUrl: "/dashboard" })}>
-          Login
-        </button>
-      </div>
+      {session ? (
+        <div className="flex gap-2">
+          <p>{session.user?.name}</p>
+          <SignOut />
+        </div>
+      ) : (
+        <div>
+          <SignIn />
+        </div>
+      )}
     </div>
   );
 }
