@@ -7,5 +7,9 @@ export default async function Dashboard() {
   if (!session) {
     redirect("/");
   }
-  return <div className="container px-4">Welcome {session.user?.name}</div>;
+  return (
+    <div className="container px-4">
+      Welcome {session.user?.name}. Your User category is {session.user.role}
+    </div>
+  );
 }

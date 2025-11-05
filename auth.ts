@@ -1,5 +1,3 @@
-export const runtime = "nodejs";
-
 import NextAuth from "next-auth";
 import GitHub from "next-auth/providers/github";
 import client from "./lib/db";
@@ -9,4 +7,19 @@ export const { handlers, signIn, signOut, auth } = NextAuth({
   adapter: MongoDBAdapter(client),
   providers: [GitHub],
   secret: process.env.AUTH_SECRET,
+  callbacks: {
+    async session({ session, user }) {
+      session.user.role = user.role || "user";
+      return session;
+    },
+  },
+  events: {
+    async createUser({ user }) {
+      const clientPromise = await client;
+      const db = clientPromise.db();
+      await db
+        .collection("users")
+        .updateOne({ email: user.email }, { $set: { role: "user" } });
+    },
+  },
 });
