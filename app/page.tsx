@@ -1,11 +1,9 @@
-export const runtime = "nodejs";
-
-import SignIn from "@/components/sign-in";
+import Post from "@/components/Post";
 
 export default function Home() {
   return (
     <div>
-      <SignIn />
+      <Post />
     </div>
   );
 }
