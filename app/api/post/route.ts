@@ -11,10 +11,10 @@ export async function POST(req: Request) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const { content } = await req.json();
+  const { message } = await req.json();
 
   const post = await Post.create({
-    content,
+    content: message,
     authorId: session.user.id,
   });
 
