@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 
-export default function Post() {
+export default function Post({ loadPosts }: { loadPosts: () => void }) {
   const [message, setMessage] = useState("");
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -23,9 +23,9 @@ export default function Post() {
 
       if (res.ok) {
         console.log("Successfuly post message.");
+        setMessage("");
+        loadPosts();
       }
-
-      setMessage("");
     } catch (error) {
       console.log(error);
     }
