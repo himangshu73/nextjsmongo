@@ -19,7 +19,10 @@ export default function Home() {
     }
   }
   useEffect(() => {
-    loadPosts();
+    async function fetchData() {
+      await loadPosts();
+    }
+    fetchData();
   }, []);
   return (
     <div>
