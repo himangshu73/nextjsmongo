@@ -8,6 +8,7 @@ export default function ShowPost({ posts }: { posts: PostTypes[] }) {
           key={post._id}
           className="bg-white p-5 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-200"
         >
+          <p>{post.authorId.name}</p>
           <p className="text-gray-800 text-[15px] leading-relaxed">
             {post.content}
           </p>

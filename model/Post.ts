@@ -2,7 +2,7 @@ import mongoose, { Document, model, models, Schema } from "mongoose";
 
 export interface IPost extends Document {
   content: string;
-  authorId: string;
+  authorId: mongoose.Types.ObjectId;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -15,7 +15,7 @@ const PostSchema = new Schema<IPost>(
     },
 
     authorId: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
       ref: "User",
     },

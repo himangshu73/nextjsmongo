@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import dbConnect from "@/lib/dbConnect";
 import Post from "@/model/Post";
+import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 
 export async function GET() {
@@ -11,8 +12,9 @@ export async function GET() {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-  const posts = await Post.find({ authorId: session.user.id }).sort({
-    createdAt: -1,
+  const posts = await Post.find({
+    authorId: new mongoose.Types.ObjectId(session.user.id),
   });
+  console.log(posts);
   return NextResponse.json(posts, { status: 200 });
 }
