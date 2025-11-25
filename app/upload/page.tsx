@@ -18,6 +18,7 @@ export default function UploadPage() {
             id="fileUpload"
             type="file"
             className="hidden"
+            required
             onChange={(e) =>
               setSelectedFileName(e.target.files?.[0]?.name || "")
             }
@@ -34,7 +35,10 @@ export default function UploadPage() {
         </div>
         <div className="flex flex-col gap-1">
           <label className="text-sm font-medium text-gray-700">Category</label>
-          <select className="border rounded-xl p-3 text-sm bg-gray-50 cursor-pointer">
+          <select
+            required
+            className="border rounded-xl p-3 text-sm bg-gray-50 cursor-pointer"
+          >
             <option value="GAD">GAD</option>
             <option value="SME">SME</option>
             <option value="CIB">CIB</option>
@@ -45,6 +49,7 @@ export default function UploadPage() {
           <input
             type="text"
             placeholder="Enter file name"
+            required
             className="border rounded-xl p-3 text-sm bg-gray-50"
           />
         </div>
@@ -54,6 +59,7 @@ export default function UploadPage() {
           </label>
           <input
             type="date"
+            required
             className="border rounded-xl p-3 text-sm bg-gray-50"
           />
         </div>
