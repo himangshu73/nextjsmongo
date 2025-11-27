@@ -3,7 +3,7 @@ import { useState } from "react";
 
 export default function UploadPage() {
   const [selectedFileName, setSelectedFileName] = useState("");
-  const [file, setFile] = useState<File | null>();
+  const [file, setFile] = useState<File | null>(null);
 
   const [category, setCategory] = useState("GAD");
   const [fileName, setFileName] = useState("");
@@ -22,7 +22,7 @@ export default function UploadPage() {
     formData.append("date", circularDate);
     formData.append("description", description);
 
-    const res = await fetch("/api/upload", {
+    const res = await fetch("/api/circular", {
       method: "POST",
       body: formData,
     });
