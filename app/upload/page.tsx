@@ -28,6 +28,7 @@ export default function UploadPage() {
     });
 
     const data = await res.json();
+    console.log(data);
     alert(data.message);
   };
   return (
