@@ -9,13 +9,16 @@ interface Circular {
 
 export default function CircularPage() {
   const [circulars, setCirculars] = useState([]);
-  async function fetchPDFs() {
-    const res = await fetch("/api/showcircular");
-    const data = await res.json();
-    console.log(data);
-    setCirculars(data.circulars);
-  }
+
   useEffect(() => {
+    async function fetchPDFs() {
+      const res = await fetch("/api/showcircular");
+      const data = await res.json();
+      console.log(data);
+      if (data.success) {
+        setCirculars(data.circulars);
+      }
+    }
     fetchPDFs();
   }, []);
   return (
