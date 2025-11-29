@@ -14,21 +14,26 @@ export default async function Navbar() {
           <h1 className="text-2xl font-bold text-white">Share More</h1>
         </div>
       </Link>
-      {session ? (
-        <div className="flex gap-2 justify-center items-center">
-          <Link href="/dashboard" className="text-white">
-            <span>Welcome, </span>
-            <span className="hover:underline">
-              {session.user?.name?.split(" ")[0]}
-            </span>
-          </Link>
-          <SignOut />
-        </div>
-      ) : (
-        <div>
-          <SignIn />
-        </div>
-      )}
+      <div className="flex gap-2 items-center">
+        <Link href="/circular" className="text-white">
+          Circulars
+        </Link>
+        {session ? (
+          <div className="flex gap-2 justify-center items-center">
+            <Link href="/dashboard" className="text-white">
+              <span>Welcome, </span>
+              <span className="hover:underline">
+                {session.user?.name?.split(" ")[0]}
+              </span>
+            </Link>
+            <SignOut />
+          </div>
+        ) : (
+          <div>
+            <SignIn />
+          </div>
+        )}
+      </div>
     </div>
   );
 }

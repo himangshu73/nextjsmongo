@@ -1,31 +1,21 @@
+import dbConnect from "@/lib/dbConnect";
+import Circular from "@/model/Circular";
 import { NextResponse } from "next/server";
-import { v2 as cloudinary } from "cloudinary";
-
-cloudinary.config({
-  cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
-  api_key: process.env.CLOUDINARY_API_KEY!,
-  api_secret: process.env.CLOUDINARY_API_SECRET!,
-});
 
 export async function GET() {
   try {
-    const ping = await cloudinary.api.ping();
-    console.log(ping);
-    console.log("waiting for result");
-    const result = await cloudinary.api.resources({
-      resource_type: "image",
-      type: "upload",
-      prefix: "circulars/",
-      max_results: 100,
-    });
+    await dbConnect();
 
-    console.log(result);
+    const circulars = await Circular.find();
+    console.log(circulars);
 
-    return NextResponse.json({
-      success: true,
-      message: "PDF List Fetched",
-      circulars: result.resources,
-    });
+    return NextResponse.json(
+      {
+        success: true,
+        circulars,
+      },
+      { status: 200 }
+    );
   } catch (error) {
     const message =
       error instanceof Error ? error.message : "Unknown serer error";
