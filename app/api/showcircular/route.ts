@@ -6,7 +6,7 @@ export async function GET() {
   try {
     await dbConnect();
 
-    const circulars = await Circular.find();
+    const circulars = await Circular.find().sort({ date: -1 });
     console.log(circulars);
 
     return NextResponse.json(

@@ -28,8 +28,13 @@ export default function CircularPage() {
           >
             <div>
               <div className="font-medium">{item.fileName}</div>
-              <div className="text-sm text-gray-500">
-                Date: {new Date(item.date).toLocaleDateString()}
+              <div className="flex items-center gap-2">
+                <p className="text-sm text-gray-500">
+                  Category: {item.category}
+                </p>
+                <div className="text-sm text-gray-500">
+                  Date: {new Date(item.date).toLocaleDateString()}
+                </div>
               </div>
             </div>
             <a
