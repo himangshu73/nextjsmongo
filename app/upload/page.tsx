@@ -9,6 +9,7 @@ export default function UploadPage() {
   const [fileName, setFileName] = useState("");
   const [circularDate, setCircularDate] = useState("");
   const [description, setDescription] = useState("");
+  const [loading, setLoading] = useState(false);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -22,14 +23,29 @@ export default function UploadPage() {
     formData.append("date", circularDate);
     formData.append("description", description);
 
-    const res = await fetch("/api/circular", {
-      method: "POST",
-      body: formData,
-    });
+    try {
+      setLoading(true);
+      const res = await fetch("/api/circular", {
+        method: "POST",
+        body: formData,
+      });
 
-    const data = await res.json();
-    console.log(data);
-    alert(data.message);
+      const data = await res.json();
+      alert(data.message);
+
+      if (data.success) {
+        setFile(null);
+        setSelectedFileName("");
+        setFileName("");
+        setCircularDate("");
+        setCategory("GAD");
+        setDescription("");
+      }
+    } catch (error) {
+      alert("Upload Failed. Try again.");
+    } finally {
+      setLoading(false);
+    }
   };
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center p-6">
@@ -114,8 +130,23 @@ export default function UploadPage() {
             className="border rounded-xl p-3 text-sm bg-gray-50 resize-none"
           ></textarea>
         </div>
-        <button className="w-full bg-blue-600 text-white p-3 rounded-xl font-medium shadow hover:bg-blue-700 transition cursor-pointer">
-          Upload
+        <button
+          type="submit"
+          disabled={loading}
+          className={`w-full text-white p-3 rounded-xl font-medium shadow transition cursor-pointer ${
+            loading
+              ? "bg-gray-400 cursor-not-allowed"
+              : "bg-blue-600 hover:bg-blue-700"
+          }`}
+        >
+          {loading ? (
+            <div className="flex justify-center items-center gap-2">
+              <span className="loader h-5 w-5 border-2 border-white border-t-transparent roundedfull animate-spin"></span>
+              Uploading...
+            </div>
+          ) : (
+            "Upload"
+          )}
         </button>
       </form>
     </div>

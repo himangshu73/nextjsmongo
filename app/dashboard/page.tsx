@@ -1,4 +1,5 @@
 import { auth } from "@/auth";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 export default async function Dashboard() {
@@ -9,7 +10,7 @@ export default async function Dashboard() {
   }
   return (
     <div className="container px-4">
-      Welcome {session.user?.name}. Your User category is {session.user.role}
+      <Link href="/upload">Upload Circular</Link>
     </div>
   );
 }
