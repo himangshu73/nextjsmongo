@@ -9,7 +9,7 @@ export default function DeleteCircularButton({ id }: { id: string }) {
   async function handleDelete() {
     setLoading(true);
 
-    const res = await fetch(`/api/circular/${id}`, { method: "DELETE" });
+    const res = await fetch(`/api/deletecircular/${id}`, { method: "DELETE" });
 
     const data = await res.json();
     setLoading(false);
