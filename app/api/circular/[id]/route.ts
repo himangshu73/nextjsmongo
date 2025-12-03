@@ -3,7 +3,6 @@ import dbConnect from "@/lib/dbConnect";
 import Circular from "@/model/Circular";
 import { v2 as cloudinary } from "cloudinary";
 import { NextResponse } from "next/server";
-import { UploadApiResponse } from "cloudinary";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
@@ -13,7 +12,7 @@ cloudinary.config({
 
 export async function DELETE(
   req: Request,
-  { params }: { params: { id: string } }
+  context: { params: { id: string } }
 ) {
   try {
     await dbConnect();
@@ -23,7 +22,7 @@ export async function DELETE(
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const { id } = params;
+    const { id } = await context.params;
 
     const circular = await Circular.findById(id);
     if (!circular) {

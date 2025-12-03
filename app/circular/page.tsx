@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { ICircular } from "@/types/circular";
+import DeleteCircularButton from "@/components/deletebutton";
 
 export default function CircularPage() {
   const [circulars, setCirculars] = useState([]);
@@ -45,6 +46,7 @@ export default function CircularPage() {
             >
               Download
             </a>
+            <DeleteCircularButton id={item._id} />
           </div>
         ))}
       </div>

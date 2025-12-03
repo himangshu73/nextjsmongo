@@ -1,6 +1,7 @@
-import { Document, Types } from "mongoose";
+import { Types } from "mongoose";
 
-export interface ICircular extends Document {
+export interface ICircular {
+  _id: string;
   fileName: string;
   category: "GAD" | "SME" | "CIB";
   date: Date;
