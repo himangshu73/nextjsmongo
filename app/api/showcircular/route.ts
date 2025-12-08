@@ -2,12 +2,34 @@ import dbConnect from "@/lib/dbConnect";
 import Circular from "@/model/Circular";
 import { NextResponse } from "next/server";
 
-export async function GET() {
+export async function GET(req: Request) {
   try {
     await dbConnect();
 
-    const circulars = await Circular.find().sort({ date: -1 });
-    console.log(circulars);
+    const { search, category, from, to } = Object.fromEntries(
+      new URL(req.url).searchParams
+    );
+
+    const query: Record<string, any> = {};
+
+    if (search && search.trim() !== "") {
+      query.$or = [
+        { fileName: { $regex: search, $options: "i" } },
+        { description: { $regex: search, $options: "i" } },
+      ];
+    }
+
+    if (category && category !== "") {
+      query.category = category;
+    }
+
+    if (from || to) {
+      query.date = {};
+      if (from) query.date.$gte = new Date(from);
+      if (to) query.date.$lte = new Date(to);
+    }
+
+    const circulars = await Circular.find(query).sort({ date: -1 });
 
     return NextResponse.json(
       {

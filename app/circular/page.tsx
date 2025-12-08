@@ -4,24 +4,52 @@ import { useEffect, useState } from "react";
 import type { ICircular } from "@/types/circular";
 import DeleteCircularButton from "@/components/deletebutton";
 import { useSession } from "next-auth/react";
+import CircularFilters from "@/components/CircularFilters";
+
+export interface CircularFilterValues {
+  search?: string;
+  category?: "GAD" | "SME" | "CIB" | "";
+  from?: string;
+  to?: string;
+}
 
 export default function CircularPage() {
   const [circulars, setCirculars] = useState([]);
   const { data: session, status } = useSession();
 
-  useEffect(() => {
-    async function fetchPDFs() {
-      const res = await fetch("/api/showcircular");
-      const data = await res.json();
-      console.log(data);
-      if (data.success) {
-        setCirculars(data.circulars);
-      }
+  async function fetchCirculars(filters?: CircularFilterValues) {
+    const validParams: Record<string, string> = {};
+
+    if (filters) {
+      Object.entries(filters).forEach(([key, value]) => {
+        if (value && value !== "") {
+          validParams[key] = String(value);
+        }
+      });
     }
-    fetchPDFs();
+
+    const params = new URLSearchParams(validParams).toString();
+
+    const url = params ? `/api/showcircular?${params}` : `/api/showcircular`;
+
+    const res = await fetch(url);
+    const data = await res.json();
+
+    if (data.success) {
+      setCirculars(data.circulars);
+    }
+  }
+  function handleFilters(filters: CircularFilterValues) {
+    console.log(filters);
+    fetchCirculars(filters)
+  }
+
+  useEffect(() => {
+    fetchCirculars();
   }, []);
   return (
     <div className="p-4">
+      <CircularFilters onFilter={handleFilters} />
       <h1 className="text-xl fornt-semibold mb-4">All Circulars</h1>
       <div className="space-y-4">
         {circulars.map((item: ICircular) => (
