@@ -15,7 +15,7 @@ export interface CircularFilterValues {
 
 export default function CircularPage() {
   const [circulars, setCirculars] = useState([]);
-  const { data: session, status } = useSession();
+  const { status } = useSession();
 
   async function fetchCirculars(filters?: CircularFilterValues) {
     const validParams: Record<string, string> = {};
@@ -41,11 +41,14 @@ export default function CircularPage() {
   }
   function handleFilters(filters: CircularFilterValues) {
     console.log(filters);
-    fetchCirculars(filters)
+    fetchCirculars(filters);
   }
 
   useEffect(() => {
-    fetchCirculars();
+    async function loadCirculars() {
+      await fetchCirculars();
+    }
+    loadCirculars();
   }, []);
   return (
     <div className="p-4">

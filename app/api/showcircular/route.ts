@@ -2,6 +2,12 @@ import dbConnect from "@/lib/dbConnect";
 import Circular from "@/model/Circular";
 import { NextResponse } from "next/server";
 
+type QueryType = {
+  $or?: Array<Record<string, unknown>>;
+  category?: string;
+  date?: { $gte?: Date; $lte?: Date };
+};
+
 export async function GET(req: Request) {
   try {
     await dbConnect();
@@ -10,7 +16,7 @@ export async function GET(req: Request) {
       new URL(req.url).searchParams
     );
 
-    const query: Record<string, any> = {};
+    const query: QueryType = {};
 
     if (search && search.trim() !== "") {
       query.$or = [
