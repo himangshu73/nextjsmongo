@@ -3,7 +3,7 @@ import { Types } from "mongoose";
 export interface ICircular {
   _id: string;
   fileName: string;
-  category: "GAD" | "SME" | "CIB";
+  category: Types.ObjectId;
   date: Date;
   description: string;
 

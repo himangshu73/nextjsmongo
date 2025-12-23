@@ -5,9 +5,9 @@ const CircularSchema = new Schema<ICircular>(
   {
     fileName: { type: String, required: true, trim: true },
     category: {
-      type: String,
+      type: mongoose.Schema.Types.ObjectId,
       required: true,
-      enum: ["GAD", "SME", "CIB"],
+      ref:"Category",
       index: true,
     },
     date: { type: Date, required: true, index: true },

@@ -8,7 +8,7 @@ import CircularFilters from "@/components/CircularFilters";
 
 export interface CircularFilterValues {
   search?: string;
-  category?: "GAD" | "SME" | "CIB" | "";
+  category?: string;
   from?: string;
   to?: string;
 }
@@ -63,25 +63,25 @@ export default function CircularPage() {
             <div>
               <div className="font-medium">{item.fileName}</div>
               <div className="flex items-center gap-2">
-                <p className="text-sm text-gray-500">
-                  Category: {item.category}
-                </p>
+                <p className="text-sm text-gray-500">Category: </p>
                 <div className="text-sm text-gray-500">
                   Date: {new Date(item.date).toLocaleDateString()}
                 </div>
               </div>
             </div>
-            <a
-              href={item.cloudinaryUrl}
-              download
-              target="_blank"
-              className="px-3 py-1 bg-gray-500 hover:bg-gray-700 text-white rounded-md"
-            >
-              Download
-            </a>
-            {status === "authenticated" && (
-              <DeleteCircularButton id={item._id} />
-            )}
+            <div className="flex gap-4">
+              <a
+                href={item.cloudinaryUrl}
+                download
+                target="_blank"
+                className="px-3 py-1 bg-gray-500 hover:bg-gray-700 text-white rounded-md"
+              >
+                Download
+              </a>
+              {status === "authenticated" && (
+                <DeleteCircularButton id={item._id} />
+              )}
+            </div>
           </div>
         ))}
       </div>

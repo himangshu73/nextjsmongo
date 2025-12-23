@@ -1,20 +1,37 @@
 "use client";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+
+interface Category {
+  _id: string;
+  name: string;
+}
 
 export default function UploadPage() {
   const [selectedFileName, setSelectedFileName] = useState("");
   const [file, setFile] = useState<File | null>(null);
 
-  const [category, setCategory] = useState("GAD");
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [category, setCategory] = useState<string>("");
+
   const [fileName, setFileName] = useState("");
   const [circularDate, setCircularDate] = useState("");
   const [description, setDescription] = useState("");
   const [loading, setLoading] = useState(false);
 
+  useEffect(() => {
+    async function fetchCategories() {
+      const res = await fetch("/api/category/list");
+      const data = await res.json();
+      setCategories(data);
+    }
+    fetchCategories();
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!file) return alert("Please upload a PDF");
+    if (!category) return alert("Please select a category");
 
     const formData = new FormData();
     formData.append("file", file);
@@ -38,7 +55,7 @@ export default function UploadPage() {
         setSelectedFileName("");
         setFileName("");
         setCircularDate("");
-        setCategory("GAD");
+        setCategory("");
         setDescription("");
       }
     } catch (error) {
@@ -64,6 +81,7 @@ export default function UploadPage() {
           <input
             id="fileUpload"
             type="file"
+            accept="application/pdf"
             className="hidden"
             required
             onChange={(e) => {
@@ -76,7 +94,7 @@ export default function UploadPage() {
             htmlFor="fileUpload"
             className="cursor-pointer bg-blue-600 text-white p-3 rounded-xl text-center shadow hover:bg-blue-700 transition"
           >
-            {selectedFileName ? selectedFileName : "Upload PDF"}
+            {selectedFileName || "Upload PDF"}
           </label>
           <p className="text-xs text-gray-500" id="fileNameDisplay">
             {selectedFileName || "No file choosen."}
@@ -90,9 +108,12 @@ export default function UploadPage() {
             onChange={(e) => setCategory(e.target.value)}
             className="border rounded-xl p-3 text-sm bg-gray-50 cursor-pointer"
           >
-            <option value="GAD">GAD</option>
-            <option value="SME">SME</option>
-            <option value="CIB">CIB</option>
+            <option value="">Select Category</option>
+            {categories.map((cat) => (
+              <option key={cat._id} value={cat._id}>
+                {cat.name}
+              </option>
+            ))}
           </select>
         </div>
         <div className="flex flex-col gap-1">
