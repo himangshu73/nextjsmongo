@@ -24,5 +24,5 @@ export async function POST(req: Request) {
 
   const category = await Category.create({ name });
 
-  return NextResponse.json({ category }, { status: 201 });
+  return NextResponse.json({ category, success: true }, { status: 201 });
 }

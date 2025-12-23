@@ -22,7 +22,7 @@ export default function UploadPage() {
     async function fetchCategories() {
       const res = await fetch("/api/category/list");
       const data = await res.json();
-      setCategories(data);
+      setCategories(data.categories);
     }
     fetchCategories();
   }, []);
