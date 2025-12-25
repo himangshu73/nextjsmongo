@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import type { ICircular } from "@/types/circular";
-import DeleteCircularButton from "@/components/deletebutton";
+import DeleteButton from "@/components/deletebutton";
 import { useSession } from "next-auth/react";
 import CircularFilters from "@/components/CircularFilters";
 
@@ -63,7 +63,12 @@ export default function CircularPage() {
             <div>
               <div className="font-medium">{item.fileName}</div>
               <div className="flex items-center gap-2">
-                <p className="text-sm text-gray-500">Category: </p>
+                <p className="text-sm text-gray-500">
+                  Category:{" "}
+                  {typeof item.category === "object" && "name" in item.category
+                    ? item.category.name
+                    : "Unknown"}
+                </p>
                 <div className="text-sm text-gray-500">
                   Date: {new Date(item.date).toLocaleDateString()}
                 </div>
@@ -79,7 +84,12 @@ export default function CircularPage() {
                 Download
               </a>
               {status === "authenticated" && (
-                <DeleteCircularButton id={item._id} />
+                <DeleteButton
+                  id={item._id}
+                  apiPath="/api/deletecircular"
+                  itemName="circular"
+                  onSuccess={() => window.location.reload()}
+                />
               )}
             </div>
           </div>

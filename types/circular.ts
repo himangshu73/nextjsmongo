@@ -1,9 +1,14 @@
 import { Types } from "mongoose";
 
+export interface ICategory {
+  _id: string;
+  name: string;
+}
+
 export interface ICircular {
   _id: string;
   fileName: string;
-  category: Types.ObjectId;
+  category: Types.ObjectId | ICategory;
   date: Date;
   description: string;
 

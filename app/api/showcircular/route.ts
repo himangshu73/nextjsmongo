@@ -35,7 +35,9 @@ export async function GET(req: Request) {
       if (to) query.date.$lte = new Date(to);
     }
 
-    const circulars = await Circular.find(query).sort({ date: -1 });
+    const circulars = await Circular.find(query)
+      .populate("category", "name")
+      .sort({ date: -1 });
 
     return NextResponse.json(
       {

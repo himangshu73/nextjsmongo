@@ -1,5 +1,6 @@
 "use client";
 
+import DeleteButton from "@/components/deletebutton";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -68,6 +69,12 @@ export default function Dashboard() {
         {categories.map((cat) => (
           <div key={cat._id} className="rounded bg-gray-800 p-2 text-white">
             {cat.name}
+            <DeleteButton
+              id={cat._id}
+              apiPath="/api/category/delete"
+              itemName="category"
+              onSuccess={() => window.location.reload()}
+            />
           </div>
         ))}
       </div>

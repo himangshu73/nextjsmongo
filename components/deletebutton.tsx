@@ -2,22 +2,35 @@
 
 import { useState } from "react";
 
-export default function DeleteCircularButton({ id }: { id: string }) {
+interface DeleteButtonProps {
+  id: string;
+  apiPath: string;
+  itemName: string;
+  onSuccess?: () => void;
+}
+
+export default function DeleteButton({
+  id,
+  apiPath,
+  itemName,
+  onSuccess,
+}: DeleteButtonProps) {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
 
   async function handleDelete() {
     setLoading(true);
 
-    const res = await fetch(`/api/deletecircular/${id}`, { method: "DELETE" });
+    const res = await fetch(`${apiPath}/${id}`, { method: "DELETE" });
 
     const data = await res.json();
+
     setLoading(false);
     setOpen(false);
 
     if (data.success) {
-      alert("Circular deleted successfully");
-      window.location.reload();
+      alert(`${itemName} deleted successfully`);
+      onSuccess?.();
     } else {
       alert(data.error || "Failed to delete");
     }
@@ -39,7 +52,7 @@ export default function DeleteCircularButton({ id }: { id: string }) {
               Confirm Delete
             </h2>
             <p className="text-gray-600 mb-6">
-              Are you sure you want to delete this circular?
+              Are you sure you want to delete this {itemName}?
             </p>
             <div className="flex justify-end space-x-3">
               <button

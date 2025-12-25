@@ -8,6 +8,7 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    console.log("Trying to connect db in delete category route");
     await dbConnect();
 
     const session = await auth();
@@ -16,6 +17,7 @@ export async function DELETE(
     }
 
     const { id } = await params;
+    console.log("ID found: ", id);
 
     const category = await Category.findById(id);
     if (!category) {
