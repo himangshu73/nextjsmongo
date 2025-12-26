@@ -1,16 +1,10 @@
 "use client";
 
 import CircularFilters from "@/components/CircularFilters";
-
-export interface CircularFilterValues {
-  search?: string;
-  category?: "GAD" | "SME" | "CIB" | "";
-  from?: string;
-  to?: string;
-}
+import { ICircularFilterValues } from "@/types/circular";
 
 export default function Home() {
-  function handleFilters(filters: CircularFilterValues) {
+  function handleFilters(filters: ICircularFilterValues) {
     console.log(filters);
   }
   return (
