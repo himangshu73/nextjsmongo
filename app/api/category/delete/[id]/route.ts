@@ -1,6 +1,7 @@
 import { auth } from "@/auth";
 import dbConnect from "@/lib/dbConnect";
 import Category from "@/model/Category";
+import Circular from "@/model/Circular";
 import { NextResponse } from "next/server";
 
 export async function DELETE(
@@ -8,7 +9,6 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    console.log("Trying to connect db in delete category route");
     await dbConnect();
 
     const session = await auth();
@@ -17,7 +17,6 @@ export async function DELETE(
     }
 
     const { id } = await params;
-    console.log("ID found: ", id);
 
     const category = await Category.findById(id);
     if (!category) {
@@ -26,6 +25,15 @@ export async function DELETE(
         { status: 404 }
       );
     }
+    //Check if category is used
+    const count = await Circular.countDocuments({ category: id });
+    if (count > 0) {
+      return NextResponse.json(
+        { error: `Category is used by ${count} circular(s)` },
+        { status: 400 }
+      );
+    }
+
     await category.deleteOne();
 
     return NextResponse.json(

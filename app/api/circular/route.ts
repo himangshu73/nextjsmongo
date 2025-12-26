@@ -46,7 +46,6 @@ export async function POST(req: Request) {
         )
         .end(buffer);
     });
-    console.log("Uploadresult:", uploadResult);
     const upload = uploadResult as UploadApiResponse;
 
     const newCircular = await Circular.create({

@@ -1,20 +1,15 @@
 "use client";
 
-import { useState } from "react";
-
-export interface CircularFilterValues {
-  search?: string;
-  category?: "GAD" | "SME" | "CIB" | "";
-  from?: string;
-  to?: string;
-}
+import { useEffect, useState } from "react";
+import { ICategory, ICircularFilterValues } from "@/types/circular";
 
 interface CircularFilterProps {
-  onFilter: (filters: CircularFilterValues) => void;
+  onFilter: (filters: ICircularFilterValues) => void;
 }
 
 export default function CircularFilters({ onFilter }: CircularFilterProps) {
   const [search, setSearch] = useState("");
+  const [categories, setCategories] = useState<ICategory[]>([]);
   const [category, setCategory] = useState("");
   const [from, setFrom] = useState("");
   const [to, setTo] = useState("");
@@ -24,11 +19,21 @@ export default function CircularFilters({ onFilter }: CircularFilterProps) {
 
     onFilter({
       search,
-      category: category as CircularFilterValues["category"],
+      category,
       from,
       to,
     });
   }
+
+  useEffect(() => {
+    async function fetchCategories() {
+      const res = await fetch("/api/category/list");
+      const data = await res.json();
+      setCategories(data.categories);
+    }
+    fetchCategories();
+  }, []);
+
   return (
     <div className="w-full bg-gray-800 p-4 rounded-xl shadow-md">
       <form
@@ -48,9 +53,11 @@ export default function CircularFilters({ onFilter }: CircularFilterProps) {
           className="w-full bg-gray-700 text-gray-200 px-3 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
         >
           <option value="">All</option>
-          <option value="GAD">GAD</option>
-          <option value="SME">SME</option>
-          <option value="CIB">CIB</option>
+          {categories.map((cat) => (
+            <option key={cat._id} value={cat._id}>
+              {cat.name}
+            </option>
+          ))}
         </select>
         <div className="flex flex-col w-full">
           <label className="text-xs text-gray-400">From</label>

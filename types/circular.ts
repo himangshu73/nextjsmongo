@@ -19,3 +19,10 @@ export interface ICircular {
 
   uploadedBy: Types.ObjectId;
 }
+
+export interface ICircularFilterValues {
+  search?: string;
+  category?: string;
+  from?: string;
+  to?: string;
+}

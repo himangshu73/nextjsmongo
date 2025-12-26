@@ -1,23 +1,16 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import type { ICircular } from "@/types/circular";
+import type { ICircular, ICircularFilterValues } from "@/types/circular";
 import DeleteButton from "@/components/deletebutton";
 import { useSession } from "next-auth/react";
 import CircularFilters from "@/components/CircularFilters";
-
-export interface CircularFilterValues {
-  search?: string;
-  category?: string;
-  from?: string;
-  to?: string;
-}
 
 export default function CircularPage() {
   const [circulars, setCirculars] = useState([]);
   const { status } = useSession();
 
-  async function fetchCirculars(filters?: CircularFilterValues) {
+  async function fetchCirculars(filters?: ICircularFilterValues) {
     const validParams: Record<string, string> = {};
 
     if (filters) {
@@ -39,7 +32,7 @@ export default function CircularPage() {
       setCirculars(data.circulars);
     }
   }
-  function handleFilters(filters: CircularFilterValues) {
+  function handleFilters(filters: ICircularFilterValues) {
     console.log(filters);
     fetchCirculars(filters);
   }
