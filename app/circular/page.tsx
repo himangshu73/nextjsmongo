@@ -23,7 +23,7 @@ export default function CircularPage() {
 
     const params = new URLSearchParams(validParams).toString();
 
-    const url = params ? `/api/showcircular?${params}` : `/api/showcircular`;
+    const url = params ? `/api/circular/show?${params}` : `/api/circular/show`;
 
     const res = await fetch(url);
     const data = await res.json();
@@ -79,7 +79,7 @@ export default function CircularPage() {
               {status === "authenticated" && (
                 <DeleteButton
                   id={item._id}
-                  apiPath="/api/deletecircular"
+                  apiPath="/api/circular/delete"
                   itemName="circular"
                   onSuccess={() => window.location.reload()}
                 />

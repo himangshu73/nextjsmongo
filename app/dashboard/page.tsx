@@ -1,17 +1,15 @@
 "use client";
 
 import DeleteButton from "@/components/deletebutton";
+import EditCategoryModal from "@/components/EditCategoryModal";
+import { ICategory } from "@/types/circular";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
-interface Category {
-  _id: string;
-  name: string;
-}
-
 export default function Dashboard() {
-  const [categories, setCategories] = useState<Category[]>([]);
+  const [categories, setCategories] = useState<ICategory[]>([]);
   const [category, setCategory] = useState("");
+  const [editCategory, setEditCategory] = useState<ICategory | null>(null);
 
   useEffect(() => {
     async function loadCategory() {
@@ -75,8 +73,22 @@ export default function Dashboard() {
               itemName="category"
               onSuccess={() => window.location.reload()}
             />
+
+            <button
+              onClick={() => setEditCategory(cat)}
+              className="text-sm text-blue-600 hover:underline"
+            >
+              Edit
+            </button>
           </div>
         ))}
+
+        {editCategory && (
+          <EditCategoryModal
+            category={editCategory}
+            onClose={() => setEditCategory(null)}
+          />
+        )}
       </div>
     </div>
   );

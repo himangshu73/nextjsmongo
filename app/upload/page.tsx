@@ -42,7 +42,7 @@ export default function UploadPage() {
 
     try {
       setLoading(true);
-      const res = await fetch("/api/circular", {
+      const res = await fetch("/api/circular/upload", {
         method: "POST",
         body: formData,
       });
