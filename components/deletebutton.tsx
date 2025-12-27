@@ -40,7 +40,7 @@ export default function DeleteButton({
     <>
       <button
         onClick={() => setOpen(true)}
-        className="px-3 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700"
+        className="px-3 py-1 text-sm bg-red-600 text-white rounded hover:bg-red-700 cursor-pointer"
       >
         Delete
       </button>
