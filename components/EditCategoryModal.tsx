@@ -4,14 +4,18 @@ import { useState } from "react";
 export default function EditCategoryModal({
   category,
   onClose,
+  onSuccess,
 }: {
   category: ICategory;
   onClose: () => void;
+  onSuccess: (updatedCategory: ICategory) => void;
 }) {
   const [name, setName] = useState(category.name);
   const [loading, setLoading] = useState(false);
 
   async function handleUpdate() {
+    if (!name.trim()) return;
+
     setLoading(true);
 
     const res = await fetch(`/api/category/edit/${category._id}`, {
@@ -19,12 +23,13 @@ export default function EditCategoryModal({
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ name }),
     });
-
+    const data = await res.json();
+    console.log("Response: ", data);
     setLoading(false);
 
     if (res.ok) {
+      onSuccess(data.updatedCategory);
       onClose();
-      location.reload();
     }
   }
   return (

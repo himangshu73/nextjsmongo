@@ -107,6 +107,15 @@ export default function Dashboard() {
             <EditCategoryModal
               category={editCategory}
               onClose={() => setEditCategory(null)}
+              onSuccess={(updatedCategory) => {
+                if (!updatedCategory?._id) return;
+
+                setCategories((prev) =>
+                  prev.map((c) =>
+                    c._id === updatedCategory._id ? updatedCategory : c
+                  )
+                );
+              }}
             />
           )}
         </div>
