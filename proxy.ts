@@ -1,15 +1,17 @@
+import { auth } from "@/auth";
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 
-export function proxy(request: NextRequest) {
-  const token = request.cookies.get("authjs.session-token")?.value;
+export async function proxy(request: NextRequest) {
+  const session = await auth();
 
-  if (!token && request.nextUrl.pathname.startsWith("/dashboard")) {
+  if (!session?.user) {
     return NextResponse.redirect(new URL("/", request.url));
   }
+
   return NextResponse.next();
 }
 
 export const config = {
-  matcher: "/dashboard/:path*",
+  matcher: ["/dashboard/:path*", "/upload/:path*"],
 };

@@ -1,9 +1,15 @@
+import { auth } from "@/auth";
 import dbConnect from "@/lib/dbConnect";
 import Category from "@/model/Category";
 import { NextResponse } from "next/server";
 
 export async function POST(req: Request) {
   await dbConnect();
+
+  const session = await auth();
+  if (!session?.user?.id) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+  }
 
   const { name } = await req.json();
 
