@@ -1,5 +1,6 @@
 import { ICategory } from "@/types/circular";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function EditCategoryModal({
   category,
@@ -24,12 +25,12 @@ export default function EditCategoryModal({
       body: JSON.stringify({ name }),
     });
     const data = await res.json();
-    console.log("Response: ", data);
     setLoading(false);
 
     if (res.ok) {
       onSuccess(data.updatedCategory);
       onClose();
+      toast(data.message);
     }
   }
   return (

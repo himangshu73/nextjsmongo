@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { toast } from "sonner";
 
 interface DeleteButtonProps {
   id: string;
@@ -29,7 +30,7 @@ export default function DeleteButton({
     setOpen(false);
 
     if (data.success) {
-      alert(`${itemName} deleted successfully`);
+      toast(`${itemName} deleted successfully`);
       onSuccess?.();
     } else {
       alert(data.error || "Failed to delete");

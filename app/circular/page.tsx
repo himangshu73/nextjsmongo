@@ -7,7 +7,7 @@ import { useSession } from "next-auth/react";
 import CircularFilters from "@/components/CircularFilters";
 
 export default function CircularPage() {
-  const [circulars, setCirculars] = useState([]);
+  const [circulars, setCirculars] = useState<ICircular[]>([]);
   const { status } = useSession();
 
   async function fetchCirculars(filters?: ICircularFilterValues) {
@@ -81,7 +81,11 @@ export default function CircularPage() {
                   id={item._id}
                   apiPath="/api/circular/delete"
                   itemName="circular"
-                  onSuccess={() => window.location.reload()}
+                  onSuccess={() =>
+                    setCirculars((prev) =>
+                      prev.filter((c) => c._id !== item._id)
+                    )
+                  }
                 />
               )}
             </div>

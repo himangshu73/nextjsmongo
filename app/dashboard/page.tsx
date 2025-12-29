@@ -5,6 +5,7 @@ import EditCategoryModal from "@/components/EditCategoryModal";
 import { ICategory } from "@/types/circular";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { toast } from "sonner";
 
 export default function Dashboard() {
   const [categories, setCategories] = useState<ICategory[]>([]);
@@ -37,6 +38,7 @@ export default function Dashboard() {
       });
       const data = await response.json();
       if (data.success) {
+        toast(data.message);
         setCategories((prev) => [...prev, data.category]);
         setCategory("");
       }
