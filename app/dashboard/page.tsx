@@ -16,6 +16,11 @@ export default function Dashboard() {
   useEffect(() => {
     async function loadCategory() {
       const response = await fetch("/api/category/list");
+
+      if (response.status === 401) {
+        return;
+      }
+      
       const data = await response.json();
 
       if (data.success) {

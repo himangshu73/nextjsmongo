@@ -1,4 +1,3 @@
-import { auth } from "@/auth";
 import dbConnect from "@/lib/dbConnect";
 import Category from "@/model/Category";
 import { NextResponse } from "next/server";
@@ -6,11 +5,6 @@ import { NextResponse } from "next/server";
 export async function GET() {
   try {
     await dbConnect();
-
-    const session = await auth();
-    if (!session?.user?.id) {
-      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
 
     const categories = await Category.find().sort({ name: 1 });
     return NextResponse.json({ success: true, categories }, { status: 200 });

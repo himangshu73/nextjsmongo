@@ -21,6 +21,9 @@ export default function UploadPage() {
   useEffect(() => {
     async function fetchCategories() {
       const res = await fetch("/api/category/list");
+      if (res.status === 401) {
+        return;
+      }
       const data = await res.json();
       setCategories(data.categories);
     }
