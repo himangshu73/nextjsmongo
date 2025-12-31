@@ -1,19 +1,6 @@
-"use client";
-
-import { useSession } from "next-auth/react";
-import DeleteButton from "./deletebutton";
 import { ICircular } from "@/types/circular";
 
-interface CircularCardProps {
-  circular: ICircular;
-  onDelete?: (id: string) => void;
-}
-
-export default function CircularCard({
-  circular,
-  onDelete,
-}: CircularCardProps) {
-  const { status } = useSession();
+export default function CircularCard({ circular }: { circular: ICircular }) {
   return (
     <div className="border p-3 rounded-md flex justify-between items-center">
       <div>
@@ -40,14 +27,6 @@ export default function CircularCard({
         >
           Download
         </a>
-        {status === "authenticated" && (
-          <DeleteButton
-            id={circular._id}
-            apiPath="/api/circular/delete"
-            itemName="circular"
-            onSuccess={() => onDelete?.(circular._id)}
-          />
-        )}
       </div>
     </div>
   );
