@@ -1,16 +1,15 @@
 import CircularList from "@/components/CircularList";
+import dbConnect from "@/lib/dbConnect";
+import Circular from "@/model/Circular";
+import { ICircular } from "@/types/circular";
 
 export default async function CircularPage() {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_URL}/api/circular/show`, {
-    cache: "no-store",
-  });
+  await dbConnect();
 
-  const data = await res.json();
+  const circulars = await Circular.find()
+    .populate("category", "name")
+    .sort({ date: -1 })
+    .lean<ICircular[]>();
 
-  return (
-    <div className="p-4">
-      <h1 className="text-xl font-semibold mb-4">All Circulars</h1>
-      <CircularList circulars={data?.circulars ?? []} />
-    </div>
-  );
+  return <CircularList circulars={circulars} />;
 }
