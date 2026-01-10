@@ -15,16 +15,13 @@ export default async function Navbar() {
         </div>
       </Link>
       <div className="flex gap-2 items-center">
-        <Link href="/circular" className="text-white">
+        <Link href="/circular" className="text-white hover:underline">
           Circulars
         </Link>
         {session ? (
           <div className="flex gap-2 justify-center items-center">
             <Link href="/dashboard" className="text-white">
-              <span>Welcome, </span>
-              <span className="hover:underline">
-                {session.user?.name?.split(" ")[0]}
-              </span>
+              <span className="hover:underline">Dashboard</span>
             </Link>
             <SignOut />
           </div>
