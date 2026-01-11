@@ -9,6 +9,7 @@ import SearchCirculars from "@/components/SearchCirculars";
 
 type PageProps = {
   searchParams: {
+    titleDes?: string;
     category?: string;
     from?: string;
     to?: string;
@@ -34,6 +35,13 @@ export default async function CircularPage({
   const params = await searchParams;
 
   const query: any = {};
+
+  if (params.titleDes) {
+    query.$or = [
+      { fileName: { $regex: params.titleDes, $options: "i" } },
+      { description: { $regex: params.titleDes, $options: "i" } },
+    ];
+  }
 
   if (params.category) {
     const categoryDoc = categories.find((c) => c.name === params.category);

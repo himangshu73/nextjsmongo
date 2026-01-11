@@ -18,12 +18,14 @@ export default function SearchCirculars({ categories }: Props) {
 
   const selectedCategory = searchParams.get("category") || "";
 
+  const [titleDes, setTittleDes] = useState(searchParams.get("titleDes") || "");
   const [from, setFrom] = useState(searchParams.get("from") || "");
   const [to, setTo] = useState(searchParams.get("to") || "");
 
   function applySearch() {
     const params = new URLSearchParams();
 
+    if (titleDes) params.set("titleDes", titleDes);
     if (selectedCategory) params.set("category", selectedCategory);
     if (from) params.set("from", from);
     if (to) params.set("to", to);
@@ -47,6 +49,12 @@ export default function SearchCirculars({ categories }: Props) {
 
   return (
     <div className="flex gap-3 mb-4">
+      <input
+        type="text"
+        value={titleDes}
+        onChange={(e) => setTittleDes(e.target.value)}
+        className="border px-2 py-1"
+      />
       <select
         value={selectedCategory}
         onChange={(e) => onChangeCategory(e.target.value)}

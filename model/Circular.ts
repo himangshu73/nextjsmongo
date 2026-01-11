@@ -7,7 +7,7 @@ const CircularSchema = new Schema<ICircular>(
     category: {
       type: mongoose.Schema.Types.ObjectId,
       required: true,
-      ref:"Category",
+      ref: "Category",
       index: true,
     },
     date: { type: Date, required: true, index: true },
@@ -26,6 +26,7 @@ const CircularSchema = new Schema<ICircular>(
   },
   { timestamps: true }
 );
+
 CircularSchema.index({ category: 1, date: -1 });
 
 export default models.Circular || model<ICircular>("Circular", CircularSchema);
