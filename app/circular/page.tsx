@@ -65,9 +65,11 @@ export default async function CircularPage({
     .lean<ICircular[]>();
 
   return (
-    <>
-      <SearchCirculars categories={categories} />
-      <CircularList circulars={circulars} />;
-    </>
+    <div className="w-full px-3 md:px-0">
+      <div className="mx-auto w-full md:w-1/2">
+        <SearchCirculars categories={categories} />
+        <CircularList circulars={circulars} />;
+      </div>
+    </div>
   );
 }

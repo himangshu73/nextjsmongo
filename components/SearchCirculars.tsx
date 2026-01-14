@@ -48,47 +48,57 @@ export default function SearchCirculars({ categories }: Props) {
   }
 
   return (
-    <div className="flex gap-3 mb-4">
-      <input
-        type="text"
-        value={titleDes}
-        onChange={(e) => setTittleDes(e.target.value)}
-        className="border px-2 py-1"
-      />
-      <select
-        value={selectedCategory}
-        onChange={(e) => onChangeCategory(e.target.value)}
-        className="border px-2 py-1"
-      >
-        <option value="">All Categories</option>
-        {categories.map((c) => (
-          <option key={c._id} value={c.name}>
-            {c.name}
-          </option>
-        ))}
-      </select>
+    <div className="bg-white border rounded-lg p-4 mb-6 shadow-sm">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+        <input
+          type="text"
+          placeholder="Search title or description"
+          value={titleDes}
+          onChange={(e) => setTittleDes(e.target.value)}
+          className="border px-3 py-2 rounded focus:outline-none focus:ring-1"
+        />
+        <select
+          value={selectedCategory}
+          onChange={(e) => onChangeCategory(e.target.value)}
+          className="border rounded px-3 py-2"
+        >
+          <option value="">All Categories</option>
+          {categories.map((c) => (
+            <option key={c._id} value={c.name}>
+              {c.name}
+            </option>
+          ))}
+        </select>
 
-      <input
-        type="date"
-        value={from}
-        onChange={(e) => setFrom(e.target.value)}
-        className="border px-2 py-1"
-      />
+        <input
+          type="date"
+          value={from}
+          onChange={(e) => setFrom(e.target.value)}
+          className="border rounded px-3 py-2"
+        />
 
-      <input
-        type="date"
-        value={to}
-        onChange={(e) => setTo(e.target.value)}
-        className="border px-2 py-1"
-      />
+        <input
+          type="date"
+          value={to}
+          onChange={(e) => setTo(e.target.value)}
+          className="border rounded px-3 py-2"
+        />
+        <div className="flex gap-3 mt-4">
+          <button
+            onClick={applySearch}
+            className="flex-1 bg-black text-white py-2 rounded hover:bg-gray-800"
+          >
+            Apply
+          </button>
 
-      <button onClick={applySearch} className="bg-black text-white px-3">
-        Apply
-      </button>
-
-      <button onClick={clearSearch} className="border px-3">
-        Clear
-      </button>
+          <button
+            onClick={clearSearch}
+            className="flex-1 border py-2 rounded hover:bg-gray-100"
+          >
+            Clear
+          </button>
+        </div>
+      </div>
     </div>
   );
 }

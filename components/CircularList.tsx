@@ -12,7 +12,7 @@ export default function CircularList({
     );
   }
   return (
-    <div className="w-full md:w-1/3 space-y-4">
+    <div className="space-y-4">
       {circulars.map((circular) => (
         <CircularCard key={circular._id} circular={circular} />
       ))}
