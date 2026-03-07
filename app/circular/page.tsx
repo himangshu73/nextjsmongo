@@ -32,31 +32,37 @@ export default async function CircularPage({ searchParams }: PageProps) {
   if (params.q) {
     const q = params.q.trim();
 
-    const yearMatch = q.match(/\b(19|20)\d{2}\b/);
-
-    const orConditions: any[] = [
-      { fileName: { $regex: q, $options: "i" } },
-      { description: { $regex: q, $options: "i" } },
-    ];
-
-    const categoryMatch = categories.find((c) =>
-      c.name.toLowerCase().includes(q.toLowerCase()),
-    );
-
-    if (categoryMatch) {
-      orConditions.push({ category: categoryMatch?._id });
-    }
-
-    query.$or = orConditions;
-
+    const yearMatch = q.match(/^\d{4}$/);
     if (yearMatch) {
       query.date = {
         $gte: new Date(`${yearMatch[0]}-01-01`),
         $lte: new Date(`${yearMatch[0]}-12-31`),
       };
+    } else {
+      const orConditions: any[] = [
+        { fileName: { $regex: q, $options: "i" } },
+        { description: { $regex: q, $options: "i" } },
+      ];
+
+      const categoryMatch = categories.find((c) =>
+        c.name.toLowerCase().includes(q.toLowerCase()),
+      );
+
+      if (categoryMatch) {
+        orConditions.push({ category: categoryMatch?._id });
+      }
+
+      query.$or = orConditions;
+
+      const yearInside = q.match(/\b(19|20)\d{2}\b/);
+      if (yearInside) {
+        query.date = {
+          $gte: new Date(`${yearInside[0]}-01-01`),
+          $lte: new Date(`${yearInside[0]}-12-31`),
+        };
+      }
     }
   }
-  console.log("MongoDB query:", query);
   const circulars = await Circular.find(query)
     .populate("category", "name")
     .sort({ date: -1 })
