@@ -9,18 +9,11 @@ import SearchCirculars from "@/components/SearchCirculars";
 
 type PageProps = {
   searchParams: {
-    titleDes?: string;
-    category?: string;
-    from?: string;
-    to?: string;
+    q?: string;
   };
 };
 
-export default async function CircularPage({
-  searchParams,
-}: {
-  searchParams: Promise<PageProps["searchParams"]>;
-}) {
+export default async function CircularPage({ searchParams }: PageProps) {
   await dbConnect();
 
   const categoriesRaw = await Category.find()
@@ -36,29 +29,34 @@ export default async function CircularPage({
 
   const query: any = {};
 
-  if (params.titleDes) {
-    query.$or = [
-      { fileName: { $regex: params.titleDes, $options: "i" } },
-      { description: { $regex: params.titleDes, $options: "i" } },
+  if (params.q) {
+    const q = params.q.trim();
+
+    const yearMatch = q.match(/\b(19|20)\d{2}\b/);
+
+    const orConditions: any[] = [
+      { fileName: { $regex: q, $options: "i" } },
+      { description: { $regex: q, $options: "i" } },
     ];
-  }
 
-  if (params.category) {
-    const categoryDoc = categories.find((c) => c.name === params.category);
+    const categoryMatch = categories.find((c) =>
+      c.name.toLowerCase().includes(q.toLowerCase()),
+    );
 
-    if (categoryDoc) {
-      query.category = categoryDoc._id;
-    } else {
-      query.category = null;
+    if (categoryMatch) {
+      orConditions.push({ category: categoryMatch?._id });
+    }
+
+    query.$or = orConditions;
+
+    if (yearMatch) {
+      query.date = {
+        $gte: new Date(`${yearMatch[0]}-01-01`),
+        $lte: new Date(`${yearMatch[0]}-12-31`),
+      };
     }
   }
-
-  if (params.from || params.to) {
-    query.date = {};
-    if (params.from) query.date.$gte = new Date(params.from);
-    if (params.to) query.date.$lte = new Date(params.to);
-  }
-
+  console.log("MongoDB query:", query);
   const circulars = await Circular.find(query)
     .populate("category", "name")
     .sort({ date: -1 })
@@ -67,7 +65,7 @@ export default async function CircularPage({
   return (
     <div className="w-full px-3 md:px-0">
       <div className="mx-auto w-full md:w-1/2">
-        <SearchCirculars categories={categories} />
+        <SearchCirculars />
         <CircularList circulars={circulars} />;
       </div>
     </div>
