@@ -1,3 +1,5 @@
+import "@/model";
+
 import CircularList from "@/components/CircularList";
 import Circular from "@/model/Circular";
 import { ICircular } from "@/types/circular";
