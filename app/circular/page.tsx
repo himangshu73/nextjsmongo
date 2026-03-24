@@ -1,5 +1,3 @@
-import "@/model";
-
 import CircularList from "@/components/CircularList";
 import dbConnect from "@/lib/dbConnect";
 import Circular from "@/model/Circular";
