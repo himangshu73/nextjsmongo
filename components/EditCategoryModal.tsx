@@ -44,13 +44,13 @@ export default function EditCategoryModal({
         />
 
         <div className="flex justify-end gap-2">
-          <button onClick={onClose} className="text-sm">
+          <button onClick={onClose} className="text-sm cursor-pointer">
             Cancel
           </button>
           <button
             onClick={handleUpdate}
             disabled={loading}
-            className="bg-blue-600 text-white px-4 py-1 rounded text-sm"
+            className="bg-blue-600 text-white px-4 py-1 rounded text-sm cursor-pointer"
           >
             {loading ? "Saving..." : "Save"}
           </button>

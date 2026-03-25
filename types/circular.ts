@@ -3,6 +3,7 @@ import { Types } from "mongoose";
 export interface ICategory {
   _id: string;
   name: string;
+  count: number;
 }
 
 export interface ICircular {

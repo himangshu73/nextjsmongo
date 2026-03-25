@@ -20,7 +20,7 @@ export default function Dashboard() {
       if (response.status === 401) {
         return;
       }
-      
+
       const data = await response.json();
 
       if (data.success) {
@@ -88,7 +88,9 @@ export default function Dashboard() {
               key={cat._id}
               className="rounded-lg bg-gray-800 p-3 text-white flex justify-between items-center"
             >
-              <div className="px-2">{cat.name}</div>
+              <div className="px-2">
+                {cat.name} ({cat.count})
+              </div>
               <div className="flex gap-2">
                 <button
                   onClick={() => setEditCategory(cat)}
@@ -102,7 +104,7 @@ export default function Dashboard() {
                   itemName="category"
                   onSuccess={() =>
                     setCategories((prev) =>
-                      prev.filter((c) => c._id !== cat._id)
+                      prev.filter((c) => c._id !== cat._id),
                     )
                   }
                 />
@@ -119,8 +121,8 @@ export default function Dashboard() {
 
                 setCategories((prev) =>
                   prev.map((c) =>
-                    c._id === updatedCategory._id ? updatedCategory : c
-                  )
+                    c._id === updatedCategory._id ? updatedCategory : c,
+                  ),
                 );
               }}
             />

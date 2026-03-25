@@ -33,7 +33,7 @@ export default function DeleteButton({
       toast(`${itemName} deleted successfully`);
       onSuccess?.();
     } else {
-      alert(data.error || "Failed to delete");
+      toast(data.error || "Failed to delete");
     }
   }
 
@@ -58,14 +58,14 @@ export default function DeleteButton({
             <div className="flex justify-end space-x-3">
               <button
                 onClick={() => setOpen(false)}
-                className="px-4 py-2 rounded bg-gray-300 hover:bg-gray-400"
+                className="px-4 py-2 rounded bg-green-700 hover:bg-green-800 transition-colors"
               >
                 Cancel
               </button>
               <button
                 onClick={handleDelete}
                 disabled={loading}
-                className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700 disabled:opacity-50"
+                className="px-4 py-2 rounded bg-red-600 text-white hover:bg-red-700 disabled:opacity-50 transition-colors"
               >
                 {loading ? "Deleting..." : "Delete"}
               </button>

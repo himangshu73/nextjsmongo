@@ -6,13 +6,36 @@ export async function GET() {
   try {
     await dbConnect();
 
-    const categories = await Category.find().sort({ name: 1 });
+    const categories = await Category.aggregate([
+      {
+        $lookup: {
+          from: "circulars",
+          localField: "_id",
+          foreignField: "category",
+          as: "circulars",
+        },
+      },
+      {
+        $addFields: {
+          count: { $size: { $ifNull: ["$circulars", []] } },
+        },
+      },
+      {
+        $project: {
+          name: 1,
+          count: 1,
+        },
+      },
+      {
+        $sort: { name: 1 },
+      },
+    ]);
     return NextResponse.json({ success: true, categories }, { status: 200 });
   } catch (error) {
     console.log(error);
     return NextResponse.json(
       { success: false, message: "Categories not found." },
-      { status: 404 }
+      { status: 404 },
     );
   }
 }
