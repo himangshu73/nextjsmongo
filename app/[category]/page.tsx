@@ -3,11 +3,11 @@ import dbConnect from "@/lib/dbConnect";
 import Category from "@/model/Category";
 import Circular from "@/model/Circular";
 
-export default async function CategoryPage({
-  params,
-}: {
+interface CategoryPageProps {
   params: Promise<{ category: string }>;
-}) {
+}
+
+export default async function CategoryPage({ params }: CategoryPageProps) {
   const { category } = await params;
 
   await dbConnect();
@@ -21,7 +21,7 @@ export default async function CategoryPage({
   return (
     <div>
       {category}
-      <CircularList circulars={circulars} />
+      <CircularList circulars={circulars} showDeleteButton={true} />
     </div>
   );
 }

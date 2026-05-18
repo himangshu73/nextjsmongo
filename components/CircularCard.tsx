@@ -11,7 +11,7 @@ interface CircularCardProps {
 
 export default function CircularCard({
   circular,
-  showDeleteButton = true,
+  showDeleteButton = false,
 }: CircularCardProps) {
   const router = useRouter();
   return (
@@ -40,15 +40,15 @@ export default function CircularCard({
         >
           Download
         </a>
+        {showDeleteButton && (
+          <DeleteButton
+            id={circular._id.toString()}
+            apiPath="/api/circular/delete"
+            itemName="Circular"
+            onSuccess={() => router.refresh()}
+          />
+        )}
       </div>
-      {showDeleteButton && (
-        <DeleteButton
-          id={circular._id}
-          apiPath="/api/circular/delete"
-          itemName="Circular"
-          onSuccess={() => router.refresh()}
-        />
-      )}
     </div>
   );
 }

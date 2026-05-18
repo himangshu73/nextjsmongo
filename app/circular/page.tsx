@@ -63,10 +63,12 @@ export default async function CircularPage({ searchParams }: PageProps) {
       }
     }
   }
-  const circulars = await Circular.find(query)
+  const foundCirculars = await Circular.find(query)
     .populate("category", "name")
     .sort({ date: -1 })
     .lean<ICircular[]>();
+
+  const circulars = JSON.parse(JSON.stringify(foundCirculars));
 
   return (
     <div className="w-full px-3 md:px-0">
