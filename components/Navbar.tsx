@@ -11,7 +11,9 @@ export default async function Navbar() {
       <Link href="/">
         <div className="flex gap-2 justify-center items-center">
           <AiOutlineHome size={32} className="text-white" />
-          <h1 className="text-2xl font-bold text-white">Share More</h1>
+          <h1 className="text-2xl font-bold text-white">
+            Sonali Bank Circulars
+          </h1>
         </div>
       </Link>
       <div className="flex gap-2 items-center">

@@ -8,8 +8,12 @@ const CategorySchema = new Schema(
       unique: true,
       trim: true,
     },
+    count: {
+      type: Number,
+      default: 0,
+    },
   },
-  { timestamps: true }
+  { timestamps: true },
 );
 
 export default models.Category || model("Category", CategorySchema);

@@ -19,7 +19,11 @@ export default async function Home() {
 
   const topCategories = categories
     .sort((a, b) => (b.count ?? 0) - (a.count ?? 0))
-    .slice(0, 5);
+    .slice(0, 5)
+    .map((cat) => ({
+      ...cat,
+      _id: cat._id.toString(),
+    }));
   return (
     <div className="p-4">
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">

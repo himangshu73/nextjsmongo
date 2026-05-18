@@ -89,7 +89,9 @@ export default function Dashboard() {
               className="rounded-lg bg-gray-800 p-3 text-white flex justify-between items-center"
             >
               <div className="px-2">
-                {cat.name} ({cat.count})
+                <Link href={`/${cat.name}`} className="hover:underline">
+                  {cat.name} ({cat.count})
+                </Link>
               </div>
               <div className="flex gap-2">
                 <button

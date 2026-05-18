@@ -1,6 +1,19 @@
-import { ICircular } from "@/types/circular";
+"use client";
 
-export default function CircularCard({ circular }: { circular: ICircular }) {
+import { ICircular } from "@/types/circular";
+import DeleteButton from "./deletebutton";
+import { useRouter } from "next/navigation";
+
+interface CircularCardProps {
+  circular: ICircular;
+  showDeleteButton?: boolean;
+}
+
+export default function CircularCard({
+  circular,
+  showDeleteButton = true,
+}: CircularCardProps) {
+  const router = useRouter();
   return (
     <div className="border rounded-lg p-4 flex justify-between items-start bg-white shadow-sm">
       <div className="space-y-1">
@@ -28,6 +41,14 @@ export default function CircularCard({ circular }: { circular: ICircular }) {
           Download
         </a>
       </div>
+      {showDeleteButton && (
+        <DeleteButton
+          id={circular._id}
+          apiPath="/api/circular/delete"
+          itemName="Circular"
+          onSuccess={() => router.refresh()}
+        />
+      )}
     </div>
   );
 }

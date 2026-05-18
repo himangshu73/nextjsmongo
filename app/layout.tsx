@@ -16,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Share More",
-  description: "Express Yourself with close connections",
+  title: "Sonali Bank Circulars",
+  description: "Get all Sonali Bank Circulars in one place",
 };
 
 export default function RootLayout({

@@ -4,6 +4,7 @@ import Circular from "@/model/Circular";
 import { v2 as cloudinary } from "cloudinary";
 import { NextResponse } from "next/server";
 import { UploadApiResponse } from "cloudinary";
+import Category from "@/model/Category";
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_CLOUD_NAME!,
@@ -42,11 +43,12 @@ export async function POST(req: Request) {
           (err, result) => {
             if (err) reject(err);
             else resolve(result);
-          }
+          },
         )
         .end(buffer);
     });
     const upload = uploadResult as UploadApiResponse;
+
 
     const newCircular = await Circular.create({
       fileName,
@@ -59,6 +61,7 @@ export async function POST(req: Request) {
       format: upload.format,
       uploadedBy: session.user.id,
     });
+    await Category.findByIdAndUpdate(category, { $inc: { count: 1 } });
 
     return NextResponse.json(
       {
@@ -66,7 +69,7 @@ export async function POST(req: Request) {
         message: "Circular Uploaded successfully",
         circular: newCircular,
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error) {
     console.log(error);

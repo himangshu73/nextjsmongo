@@ -1,5 +1,6 @@
 import { auth } from "@/auth";
 import dbConnect from "@/lib/dbConnect";
+import Category from "@/model/Category";
 import Circular from "@/model/Circular";
 import { v2 as cloudinary } from "cloudinary";
 import { NextResponse } from "next/server";
@@ -12,7 +13,7 @@ cloudinary.config({
 
 export async function DELETE(
   req: Request,
-  { params }: { params: Promise<{ id: string }> }
+  { params }: { params: Promise<{ id: string }> },
 ) {
   try {
     await dbConnect();
@@ -28,7 +29,7 @@ export async function DELETE(
     if (!circular) {
       return NextResponse.json(
         { error: "Circular not found" },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -37,16 +38,17 @@ export async function DELETE(
     }
 
     await circular.deleteOne();
+    //await Category.findByIdAndUpdate(categoryId, { $inc: { count: -1 } });
 
     return NextResponse.json(
       { success: true, message: "Circular deleted successfully" },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (error) {
     console.log("Delete Error: ", error);
     return NextResponse.json(
       { error: "Failed to delete circular" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
