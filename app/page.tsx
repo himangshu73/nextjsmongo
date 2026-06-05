@@ -9,11 +9,13 @@ import Category from "@/model/Category";
 
 export default async function Home() {
   await dbConnect();
-  const circulars = await Circular.find()
+  const foundCirculars = await Circular.find()
     .populate("category", "name")
     .sort({ date: -1 })
     .limit(5)
     .lean<ICircular[]>();
+
+  const circulars = JSON.parse(JSON.stringify(foundCirculars));
 
   const categories = await Category.find().lean<ICategory[]>();
 
