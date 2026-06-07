@@ -19,8 +19,16 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
     .sort({ date: -1 });
   const circulars = JSON.parse(JSON.stringify(foundCirculars));
   return (
-    <div>
-      {category}
+    <div className="container mx-auto px-4 py-8">
+      <div className="mb-6 pb-4 border-b">
+        <h1 className="text-3xl font-bold tracking-tight">
+          Category: {category}
+        </h1>
+        <p className="mt-2 text-muted-foreground">
+          {circulars.length} circular
+          {circulars.length !== 1 ? "s" : ""} found
+        </p>
+      </div>
       <CircularList circulars={circulars} showDeleteButton={true} />
     </div>
   );
