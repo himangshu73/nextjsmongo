@@ -2,6 +2,7 @@ import CircularList from "@/components/CircularList";
 import dbConnect from "@/lib/dbConnect";
 import Category from "@/model/Category";
 import Circular from "@/model/Circular";
+import { auth } from "@/auth";
 
 interface CategoryPageProps {
   params: Promise<{ category: string }>;
@@ -9,6 +10,12 @@ interface CategoryPageProps {
 
 export default async function CategoryPage({ params }: CategoryPageProps) {
   const { category } = await params;
+
+  const session = await auth();
+  let deleteButton = false;
+  if (session) {
+    deleteButton = true;
+  }
 
   await dbConnect();
 
@@ -29,7 +36,7 @@ export default async function CategoryPage({ params }: CategoryPageProps) {
           {circulars.length !== 1 ? "s" : ""} found
         </p>
       </div>
-      <CircularList circulars={circulars} showDeleteButton={true} />
+      <CircularList circulars={circulars} showDeleteButton={deleteButton} />
     </div>
   );
 }
