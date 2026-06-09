@@ -42,8 +42,12 @@ export default function Dashboard() {
         body: JSON.stringify({ name: category }),
       });
       const data = await response.json();
+      if (!data.success) {
+        toast.error(data.error);
+        return;
+      }
       if (data.success) {
-        toast(data.message);
+        toast.success(data.message);
         setCategories((prev) => [...prev, data.category]);
         setCategory("");
       }

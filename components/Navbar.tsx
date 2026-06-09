@@ -20,6 +20,9 @@ export default async function Navbar() {
         <Link href="/circular" className="text-white hover:underline">
           Circulars
         </Link>
+        <Link href="/categorylist" className="text-white hover:underline">
+          Categories
+        </Link>
         {session ? (
           <div className="flex gap-2 justify-center items-center">
             <Link href="/dashboard" className="text-white">
